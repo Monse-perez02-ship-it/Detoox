@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Súper Reto Detox</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500&display=swap');
+
+:root {
+  --pink: #E8637A;
+  --pink-light: #FCE8EC;
+  --pink-mid: #F4B8C3;
+  --green: #5BAF8A;
+  --green-light: #E6F5EF;
+  --cream: #FDF8F5;
+  --dark: #2C2420;
+  --gray: #8A8480;
+  --gray-light: #F0EDE8;
+  --white: #FFFFFF;
+  --border: rgba(44,36,32,0.1);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+.header {
+  background: var(--white);
+  padding: 20px 20px 0;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.app-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--dark);
+  line-height: 1.2;
+}
+
+.app-name span { color: var(--pink); }
+
+.app-sub {
+  font-size: 12px;
+  color: var(--gray);
+  margin-top: 3px;
+  font-weight: 300;
+}
+
+.reset-btn {
+  background: var(--gray-light);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  font-size: 12px;
+  color: var(--gray);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* MINI PROGRESS PILLS */
+.mini-progs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.mini-pill {
+  flex: 1;
+  background: var(--gray-light);
+  border-radius: 30px;
+  padding: 8px 10px;
+  text-align: center;
+  transition: background .2s;
+}
+
+.mini-pill.on {
+  background: var(--pink-light);
+}
+
+.mini-pill-pct {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.mini-pill.on .mini-pill-pct { color: var(--pink); }
+
+.mini-pill-lbl {
+  font-size: 10px;
+  color: var(--gray);
+  margin-top: 1px;
+}
+
+/* WEEK TABS */
+.week-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: none;
+}
+
+.wtab {
+  flex: 1;
+  padding: 10px 8px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gray);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
+  text-align: center;
+}
+
+.wtab.on {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+  font-weight: 500;
+}
+
+/* PROGRESS BAR */
+.prog-section {
+  padding: 14px 20px 0;
+}
+
+.prog-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.prog-text { font-size: 12px; color: var(--gray); }
+.prog-pct { font-size: 13px; font-weight: 600; color: var(--pink); }
+
+.prog-bar {
+  height: 5px;
+  background: var(--gray-light);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink-mid), var(--pink));
+  border-radius: 3px;
+  transition: width .4s ease;
+}
+
+/* SEARCH */
+.search-wrap {
+  padding: 0 20px 14px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-55%);
+  font-size: 15px;
+  color: var(--gray);
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  font-size: 14px;
+  background: var(--gray-light);
+  color: var(--dark);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+
+.search-input::placeholder { color: var(--gray); }
+.search-input:focus { border-color: var(--pink-mid); background: var(--white); }
+
+/* CONTENT */
+.content {
+  padding: 14px 20px 100px;
+}
+
+/* CATEGORY */
+.cat-block {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  cursor: pointer;
+  background: var(--white);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cat-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cat-emoji { font-size: 16px; }
+
+.cat-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.cat-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cat-badge {
+  font-size: 11px;
+  background: var(--gray-light);
+  color: var(--gray);
+  border-radius: 20px;
+  padding: 3px 9px;
+}
+
+.cat-arrow {
+  font-size: 12px;
+  color: var(--gray);
+  transition: transform .2s;
+}
+
+.cat-arrow.open { transform: rotate(90deg); }
+
+/* ITEMS */
+.item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .1s;
+  -webkit-tap-highlight-color: transparent;
+  active-background: var(--gray-light);
+}
+
+.item-row:active { background: var(--gray-light); }
+.item-row.done { opacity: 0.38; }
+
+.cb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  background: var(--white);
+}
+
+.cb.checked {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+
+.cb.checked::after {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: 2px solid white;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+  display: block;
+}
+
+.item-info { flex: 1; min-width: 0; }
+
+.item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark);
+  line-height: 1.3;
+}
+
+.item-qty {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--pink);
+  background: var(--pink-light);
+  border-radius: 20px;
+  padding: 2px 8px;
+  margin-top: 4px;
+}
+
+.item-para {
+  font-size: 12px;
+  color: var(--gray);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* BOTTOM ACTIONS */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 12px 20px 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-action {
+  flex: 1;
+  padding: 11px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .15s;
+}
+
+.btn-action:active { transform: scale(0.97); }
+
+.btn-check {
+  background: var(--pink);
+  color: var(--white);
+}
+
+.btn-clear {
+  background: var(--gray-light);
+  color: var(--gray);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--gray);
+  font-size: 14px;
+}
+
+.empty-icon { font-size: 2rem; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="app-name">Lista del <span>Súper</span></div>
+      <div class="app-sub">Reto Detox · 3 semanas · @dejaladieta</div>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">↺ Reiniciar</button>
+  </div>
+
+  <div class="mini-progs">
+    <div class="mini-pill on" id="mpill0">
+      <div class="mini-pill-pct" id="mpct0">0%</div>
+      <div class="mini-pill-lbl">Sem 1</div>
+    </div>
+    <div class="mini-pill" id="mpill1">
+      <div class="mini-pill-pct" id="mpct1">0%</div>
+      <div class="mini-pill-lbl">Sem 2</div>
+    </div>
+    <div class="mini-pill" id="mpill2">
+      <div class="mini-pill-pct" id="mpct2">0%</div>
+      <div class="mini-pill-lbl">Sem 3</div>
+    </div>
+  </div>
+
+  <div class="week-tabs">
+    <button class="wtab on" onclick="setWeek(0,this)">Semana 1</button>
+    <button class="wtab" onclick="setWeek(1,this)">Semana 2</button>
+    <button class="wtab" onclick="setWeek(2,this)">Semana 3</button>
+  </div>
+</div>
+
+<div class="prog-section">
+  <div class="prog-row">
+    <span class="prog-text" id="prog-label">0 de 0 artículos comprados</span>
+    <span class="prog-pct" id="prog-pct">0%</span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" class="search-input" placeholder="Buscar ingrediente..." oninput="filterItems(this.value)" id="search-box">
+</div>
+
+<div class="content" id="content"></div>
+
+<div class="bottom-bar">
+  <button class="btn-action btn-clear" onclick="clearAll()">Limpiar todo</button>
+  <button class="btn-action btn-check" onclick="checkAll()">✓ Marcar todo</button>
+</div>
+
+<script>
+const weeks = [
+  {
+    label:"Semana 1", dates:"19-25 mayo",
+    cats:[
+      {e:"🍗",name:"Proteínas",items:[
+        {n:"Pechuga de pollo",q:"1.5 kg",p:"Hamburguesa, ensalada, tacos, pizza, caldo"},
+        {n:"Carne molida de res",q:"300 g",p:"Tostadas carne molida (sáb)"},
+        {n:"Atún en lata",q:"8 latas chicas",p:"Carnitas atún (mié), cenas vier y dom"},
+        {n:"Huevo",q:"12 piezas",p:"Desayunos y french toast"},
+        {n:"Pechuga de pavo rebanada",q:"100 g",p:"Cena viernes (tostadas pavo)"},
+      ]},
+      {e:"🥛",name:"Lácteos y refrigerados",items:[
+        {n:"Yogurt griego natural sin azúcar",q:"4 piezas",p:"Overnight oats, pancakes, avena horneada"},
+        {n:"Yogurt natural sin azúcar",q:"2 piezas",p:"Bowl gelatina lunes, fruta yogurt vier"},
+        {n:"Queso panela bajo en grasa",q:"250 g",p:"Ceviche panela, tostadas sáb, pizza dom"},
+        {n:"Queso oaxaca",q:"100 g",p:"Pizza fit (domingo)"},
+        {n:"Queso cottage",q:"150 g",p:"Colación AM lunes"},
+      ]},
+      {e:"🍞",name:"Pan y carbohidratos",items:[
+        {n:"Pan integral (barra)",q:"1",p:"Colación lun, french toast jue, colación sáb"},
+        {n:"Pan de hamburguesa",q:"2 piezas",p:"Comida lunes S1 y lunes S2"},
+        {n:"Pan de hot dog",q:"1 pieza",p:"Comida jueves"},
+        {n:"Pan pita",q:"2 piezas",p:"Pizza fit (domingo)"},
+        {n:"Tortillas de maíz",q:"1 kg",p:"Carnitas atún, tacos fajitas y más"},
+        {n:"Galletas de arroz (rice cakes)",q:"1 paquete",p:"Cena miércoles"},
+        {n:"Tostadas horneadas",q:"1 paquete",p:"Cenas de atún, tostadas carne"},
+        {n:"Avena en hojuelas",q:"500 g",p:"Overnight oats, avena horneada, jugos"},
+        {n:"Harina de avena",q:"200 g",p:"Pancakes martes y domingo"},
+        {n:"Pan molido",q:"100 g",p:"Boneless sábado (cena)"},
+        {n:"Totopos horneados",q:"1 bolsa",p:"Mix saludable miércoles"},
+        {n:"Frijoles negros",q:"1 lata",p:"Quesadilla cena martes"},
+      ]},
+      {e:"🥦",name:"Verduras frescas",items:[
+        {n:"Lechuga",q:"1 cabeza grande",p:"Ensaladas y garnish toda la semana"},
+        {n:"Espinacas",q:"1 bolsa",p:"Omelette mar, ensalada mar, tacos vier"},
+        {n:"Jitomate",q:"8 piezas",p:"Todos los días"},
+        {n:"Pepino",q:"5 piezas",p:"Colaciones y cenas"},
+        {n:"Jícama",q:"2 medianas",p:"Colaciones toda la semana"},
+        {n:"Zanahoria",q:"6 piezas",p:"Colaciones, jugos, caldo"},
+        {n:"Champiñones",q:"300 g",p:"Omelette mar, tacos vier, pizza dom"},
+        {n:"Cebolla blanca",q:"3 piezas",p:"Guisos y garnish"},
+        {n:"Ajo",q:"1 cabeza",p:"Guisos generales"},
+        {n:"Apio",q:"1 manojo",p:"Jugos y caldo"},
+        {n:"Pimientos rojo y verde",q:"2 piezas",p:"Tacos fajitas viernes"},
+        {n:"Nopales",q:"4 pzas o 1 frasco",p:"Varios desayunos y guisos"},
+        {n:"Brócoli",q:"1 pieza",p:"Tacos fajitas, caldo"},
+        {n:"Papa",q:"3 medianas",p:"Hamburguesa lunes, boneless sábado"},
+        {n:"Chícharo",q:"200 g",p:"Tostadas carne molida (sábado)"},
+      ]},
+      {e:"🍎",name:"Frutas",items:[
+        {n:"Manzana",q:"8 piezas",p:"Smoothie lun, french toast, colaciones, cenas"},
+        {n:"Plátano",q:"2 piezas",p:"Overnight oats mié, avena horneada sáb"},
+        {n:"Fresas",q:"250 g",p:"French toast jueves (opcional)"},
+        {n:"Piña",q:"¼ pieza",p:"Jugo tropical sábado"},
+        {n:"Naranja",q:"3 piezas",p:"Jugo Vitamina C mié, colación dom"},
+        {n:"Limones",q:"10 piezas",p:"Colaciones y guisos toda la semana"},
+      ]},
+      {e:"🧴",name:"Despensa y condimentos",items:[
+        {n:"Cacao en polvo sin azúcar",q:"1 bote chico",p:"Overnight oats, pancakes"},
+        {n:"Vainilla",q:"1 frasco chico",p:"Pancakes, overnight oats, french toast"},
+        {n:"Splenda o stevia",q:"1 caja sobres",p:"Avena horneada, pancakes"},
+        {n:"Canela en polvo",q:"1 bote chico",p:"Varios desayunos"},
+        {n:"Maple sin azúcar",q:"1 frasco chico",p:"Avena horneada, french toast"},
+        {n:"Mostaza",q:"1 frasco",p:"Hamburguesa, hot dog"},
+        {n:"Cátsup sin azúcar",q:"1 frasco",p:"Hamburguesa lunes"},
+        {n:"Salsa de tomate",q:"1 lata chica",p:"Pizza fit domingo"},
+        {n:"Crema de cacahuate natural",q:"1 frasco chico",p:"Colación martes"},
+        {n:"Cacahuates japoneses",q:"1 bolsa chica",p:"Colaciones mié y jue"},
+        {n:"Chocolate sin azúcar barritas",q:"3 barritas",p:"Colaciones y healthy pleasure vier"},
+        {n:"Gelatina light sobres",q:"3 sobres",p:"Bowl gelatina, fruta yogurt vier"},
+        {n:"Galletas oreo",q:"1 paquete chico",p:"Pancakes mar, healthy pleasure vier"},
+        {n:"Aceite en spray",q:"1",p:"Para cocinar con mínimo aceite"},
+        {n:"Polvo para hornear",q:"1 bote chico",p:"Pancakes martes"},
+        {n:"Salsa verde o tomatillo",q:"1 frasco o 500g",p:"Carnitas atún, guisos"},
+        {n:"Leche de almendras sin azúcar",q:"1 litro",p:"Smoothie digestivo lunes"},
+        {n:"Leche",q:"½ litro",p:"French toast jueves"},
+        {n:"Chilito en polvo Tajín",q:"1 bote",p:"Colaciones toda la semana"},
+      ]},
+    ]
+  },
+  {
+    label:"Semana 2", dates:"26 mayo – 1 jun",
+    cats:[
+      {e:"🍗",name:"Proteínas",items:[
+        {n:"Pechuga de pollo",q:"1.2 kg",p:"Hamburguesa, pizza, ensalada, arroz chino, chilaquiles"},
+        {n:"Bistec de res",q:"500 g",p:"Taquitos mar, enchiladas sáb, chilaquiles jue S3"},
+        {n:"Carne molida de res",q:"250 g",p:"Pasta boloñesa jueves"},
+        {n:"Atún en lata",q:"4 latas chicas",p:"Cenas emergencia y viaje"},
+        {n:"Pescado blanco (tilapia)",q:"200 g",p:"Ceviche sábado"},
+        {n:"Pechuga de pavo rebanada",q:"150 g",p:"Tostadas pavo vier, mollete jue S3"},
+        {n:"Huevo",q:"12 piezas",p:"Egg toast lun, frijoles mié, enchiladas sáb, french toast vier"},
+      ]},
+      {e:"🥛",name:"Lácteos y refrigerados",items:[
+        {n:"Yogurt griego natural sin azúcar",q:"4 piezas",p:"Avena vainilla mar, carlota mié, pancakes jue"},
+        {n:"Yogurt natural sin azúcar",q:"2 piezas",p:"Bowl gelatina jue cena, yogurt gelatina dom"},
+        {n:"Queso oaxaca",q:"200 g",p:"Quesadillas mié, pizza vier S2"},
+        {n:"Queso panela bajo en grasa",q:"200 g",p:"Tostadas pavo, rice cake S1"},
+        {n:"Queso cottage",q:"150 g",p:"Pan con cottage martes cena"},
+      ]},
+      {e:"🍞",name:"Pan y carbohidratos",items:[
+        {n:"Pan integral",q:"1 barra",p:"French toast vier, pan cottage mar, colaciones"},
+        {n:"Pan de hamburguesa",q:"1 pieza",p:"Comida lunes"},
+        {n:"Pan pita",q:"2 piezas",p:"Pizza vier S2, burrito vier S3"},
+        {n:"Tortillas de maíz",q:"1 kg",p:"Taquitos mar, quesadillas mié, enchiladas sáb"},
+        {n:"Tortilla de harina",q:"1 pieza",p:"Opcional burrito S3 vier"},
+        {n:"Galletas de arroz",q:"1 paquete",p:"Colación AM jueves"},
+        {n:"Tostadas horneadas",q:"1 paquete",p:"Tostadas pavo vier, rainbow salad dom S3"},
+        {n:"Avena en hojuelas",q:"500 g (si se acabó)",p:"Avena vainilla mar, overnight oats jue S3"},
+        {n:"Harina de avena",q:"200 g",p:"Pancakes jue, hulk pancakes sáb S3, mugcake vie S3"},
+        {n:"Pasta",q:"200 g",p:"Pasta boloñesa jueves"},
+        {n:"Arroz blanco",q:"200 g",p:"Ceviche pescado sáb, arroz chino dom"},
+        {n:"Totopos horneados",q:"1 bolsa",p:"Chilaquiles dom S2 y jue S3"},
+        {n:"Frijoles negros",q:"1 lata",p:"Huevo frijoles mié, quesadillas mié, mollete S3"},
+        {n:"Bolillo",q:"1 pieza",p:"Mollete cena jueves S3"},
+      ]},
+      {e:"🥦",name:"Verduras frescas",items:[
+        {n:"Lechuga",q:"1 cabeza grande",p:"Hamburguesa, taquitos, ensaladas"},
+        {n:"Espinacas",q:"1 bolsa",p:"Quesadillas mié, pasta boloñesa jue, jugo rojo dom"},
+        {n:"Jitomate",q:"8 piezas",p:"Todos los días"},
+        {n:"Pepino",q:"5 piezas",p:"Colaciones, ceviche, jugos"},
+        {n:"Jícama",q:"2 piezas",p:"Colaciones toda la semana"},
+        {n:"Zanahoria",q:"6 piezas",p:"Colaciones, jugos, arroz chino"},
+        {n:"Champiñones",q:"200 g",p:"Quesadillas mié, pizza vier"},
+        {n:"Cebolla blanca",q:"3 piezas",p:"Guisos toda la semana"},
+        {n:"Ajo",q:"1 cabeza (si se acabó)",p:"Guisos generales"},
+        {n:"Apio",q:"1 manojo",p:"Jugos, caldo, ceviche pescado"},
+        {n:"Nopales",q:"4 pzas o 1 frasco",p:"Taquitos res, bistec papas, quesadillas"},
+        {n:"Papa",q:"3 medianas",p:"Hamburguesa lunes, bistec miércoles"},
+        {n:"Brócoli",q:"1 pieza",p:"Pasta boloñesa jue, arroz chino dom"},
+        {n:"Aguacate",q:"3 piezas",p:"Egg toast lun, tostadas pavo vier, quesadilla jue S3"},
+        {n:"Chayote",q:"2 piezas",p:"Bistec papas mié, arroz chino dom"},
+        {n:"Cilantro",q:"1 manojo",p:"Enchiladas sábado, guisos"},
+        {n:"Tomate verde tomatillo",q:"300 g",p:"Salsa verde para taquitos y enchiladas"},
+        {n:"Pimientos",q:"2 piezas",p:"Pizza viernes"},
+      ]},
+      {e:"🍎",name:"Frutas",items:[
+        {n:"Manzana",q:"8 piezas",p:"Avena vainilla, pan cottage, pancakes jue, colaciones"},
+        {n:"Plátano",q:"1 pieza",p:"Opcional smoothie"},
+        {n:"Naranja o mandarina",q:"6 piezas",p:"Colación vier, jugo rojo dom, colaciones S3"},
+        {n:"Guayabas",q:"3 piezas",p:"Colación viernes S2"},
+        {n:"Frutos rojos congelados",q:"200 g",p:"Jugo rojo dom, jugo antioxidante jue S3"},
+        {n:"Limones",q:"10 piezas",p:"Colaciones y guisos toda la semana"},
+        {n:"Piña",q:"½ pieza",p:"Smoothie Vitamina C lunes S3"},
+        {n:"Fresas",q:"250 g",p:"Hulk pancakes sábado S3"},
+      ]},
+      {e:"🧴",name:"Despensa y condimentos",items:[
+        {n:"Cacao en polvo sin azúcar",q:"Recargar si se acabó",p:"Doble choco pancakes lunes S3"},
+        {n:"Vainilla",q:"Recargar si se acabó",p:"Pancakes y french toasts"},
+        {n:"Splenda o stevia",q:"Recargar si se acabó",p:"Pancakes y avenas"},
+        {n:"Canela en polvo",q:"Recargar si se acabó",p:"Avenas y pancakes"},
+        {n:"Maple sin azúcar",q:"Recargar si se acabó",p:"Pancakes jueves"},
+        {n:"Mermelada sin azúcar",q:"1 frasco chico",p:"Colación AM jueves (rice cake)"},
+        {n:"Crema de cacahuate natural",q:"Recargar si se acabó",p:"French toast snickers viernes"},
+        {n:"Cacahuates japoneses",q:"1 bolsa chica",p:"Colaciones mar, snack dom S2"},
+        {n:"Chocolate sin azúcar barritas",q:"2 barritas",p:"Colaciones semana 2"},
+        {n:"Gelatina light sobres",q:"3 sobres",p:"Bowl gelatina jue, yogurt gelatina dom"},
+        {n:"Galletas maría",q:"1 paquete",p:"Colación mar, carlota mié, yogurt gelatina dom"},
+        {n:"Salsa de soya",q:"1 botella chica",p:"Arroz chino domingo"},
+        {n:"Salsa verde y roja casera",q:"1 frasco c/u",p:"Enchiladas sáb, chilaquiles S3"},
+        {n:"Leche vegetal",q:"1 litro",p:"Smoothie Vitamina C S3 lunes"},
+        {n:"Polvo para hornear",q:"Recargar si se acabó",p:"Pancakes y hulk pancakes"},
+        {n:"Nutella o lechera o crema cacahuate",q:"1",p:"Colación PM sábado S3"},
+        {n:"Chilito en polvo",q:"Recargar si se acabó",p:"Colaciones toda la semana"},
+      ]},
+    ]
+  },
+  {
+    label:"Semana 3", dates:"2-8 junio",
+    cats:[
+      {e:"🍗",name:"Proteínas",items:[
+        {n:"Pechuga de pollo",q:"1.5 kg",p:"Carnitas atún lun, pechuga asada mar, nuggets sáb, ensalada dom"},
+        {n:"Bistec de res",q:"400 g",p:"Chilaquiles jueves, taquitos res sáb cena"},
+        {n:"Atún en lata",q:"6 latas chicas",p:"Carnitas atún lunes, cenas emergencia/viaje"},
+        {n:"Huevo",q:"12 piezas",p:"Huevo mexicana mar, omelette vier, hulk pancakes sáb, mugcake vier"},
+        {n:"Pechuga de pavo rebanada",q:"150 g",p:"Mollete cena jueves"},
+      ]},
+      {e:"🥛",name:"Lácteos y refrigerados",items:[
+        {n:"Yogurt griego natural sin azúcar",q:"4 piezas",p:"Overnight oats jue, hulk pancakes sáb"},
+        {n:"Queso oaxaca light",q:"150 g",p:"Omelette vier, burrito vier"},
+        {n:"Queso panela bajo en grasa",q:"200 g",p:"Rainbow salad lun, quesadillas mar, mollete jue"},
+        {n:"Leche de almendras sin azúcar",q:"1 litro",p:"Smoothie domingo"},
+      ]},
+      {e:"🍞",name:"Pan y carbohidratos",items:[
+        {n:"Pan integral",q:"1 barra",p:"Pan con nutella colación sábado"},
+        {n:"Pan pita o tortilla de harina",q:"1 pieza",p:"Burrito viernes"},
+        {n:"Tortillas de maíz",q:"1 kg",p:"Huevo mexicana, carnitas atún, quesadillas, taquitos"},
+        {n:"Tostadas horneadas",q:"1 paquete",p:"Rainbow salad lunes cena"},
+        {n:"Avena en hojuelas",q:"500 g (si se acabó)",p:"Overnight oats jue, smoothie dom, hulk pancakes"},
+        {n:"Harina de avena",q:"200 g (si se acabó)",p:"Hulk pancakes sáb, mugcake vier"},
+        {n:"Frijoles negros",q:"1 lata",p:"Mollete jueves cena"},
+        {n:"Bolillo",q:"1 pieza",p:"Mollete jueves cena"},
+      ]},
+      {e:"🥦",name:"Verduras frescas",items:[
+        {n:"Jitomate",q:"6 piezas",p:"Todos los días"},
+        {n:"Pepino",q:"4 piezas",p:"Colaciones y burrito"},
+        {n:"Jícama",q:"2 piezas",p:"Colaciones toda la semana"},
+        {n:"Zanahoria",q:"6 piezas",p:"Colaciones, mugcake, jugos"},
+        {n:"Champiñones",q:"200 g",p:"Quesadillas martes cena"},
+        {n:"Cebolla",q:"2 piezas",p:"Guisos generales"},
+        {n:"Cilantro",q:"1 manojo chico",p:"Carnitas atún lunes"},
+        {n:"Nopales",q:"4 pzas o 1 frasco",p:"Huevo mexicana, quesadillas, taquitos"},
+        {n:"Calabacita",q:"3 piezas",p:"Quesadillas, taquitos sábado"},
+        {n:"Chayote",q:"2 piezas",p:"Carnitas atún, pechuga asada"},
+        {n:"Brócoli",q:"1 pieza",p:"Carnitas atún, pechuga asada"},
+        {n:"Lechuga",q:"1 cabeza",p:"Quesadillas, nuggets, ensalada domingo"},
+        {n:"Espinacas",q:"1 bolsa",p:"Hulk pancakes sáb, ensalada dom"},
+        {n:"Apio",q:"1 manojo",p:"Jugo verde sáb, jugos semana"},
+        {n:"Papa",q:"2 medianas",p:"Pechuga asada con papas martes"},
+        {n:"Aguacate",q:"2 piezas",p:"Burrito vier, quesadillas mar cena"},
+      ]},
+      {e:"🍎",name:"Frutas",items:[
+        {n:"Manzana",q:"6 piezas",p:"Overnight oats jue, smoothie dom, colaciones"},
+        {n:"Plátano",q:"1 pieza",p:"Hulk pancakes sábado (opcional)"},
+        {n:"Fresas",q:"250 g",p:"Hulk pancakes sábado"},
+        {n:"Naranja",q:"4 piezas",p:"Colaciones mar, jugo antioxidante jue"},
+        {n:"Guayaba",q:"2 piezas",p:"Colación AM viernes"},
+        {n:"Frutos rojos congelados",q:"200 g",p:"Jugo antioxidante jueves"},
+        {n:"Piña",q:"½ pieza",p:"Smoothie Vitamina C lunes colación AM"},
+        {n:"Limones",q:"8 piezas",p:"Colaciones y guisos toda la semana"},
+        {n:"Almendras",q:"1 bolsa chica",p:"Colación PM domingo"},
+        {n:"Cacahuates japoneses",q:"1 bolsa chica",p:"Colaciones martes, jueves"},
+      ]},
+      {e:"🧴",name:"Despensa y condimentos",items:[
+        {n:"Cacao en polvo sin azúcar",q:"Recargar si se acabó",p:"Doble choco pancakes lunes"},
+        {n:"Vainilla",q:"Recargar si se acabó",p:"Pancakes, mugcake, hulk pancakes"},
+        {n:"Splenda o stevia",q:"Recargar si se acabó",p:"Pancakes y avenas"},
+        {n:"Canela en polvo",q:"Recargar si se acabó",p:"Overnight oats, mugcake"},
+        {n:"Maple sin azúcar",q:"Recargar si se acabó",p:"Doble choco pancakes lunes"},
+        {n:"Chocolate sin azúcar barritas",q:"2 barritas",p:"Doble choco pancakes, mugcake"},
+        {n:"Nutella o crema cacahuate",q:"1 frasco",p:"Colación sábado"},
+        {n:"Salsa verde o tomatillo",q:"1 frasco o 300g",p:"Quesadillas, taquitos, carnitas atún"},
+        {n:"Polvo para hornear",q:"Recargar si se acabó",p:"Hulk pancakes sábado"},
+        {n:"Chilito en polvo",q:"Recargar si se acabó",p:"Colaciones toda la semana"},
+        {n:"Aceite en spray",q:"Recargar si se acabó",p:"Toda la semana"},
+      ]},
+    ]
+  }
+];
+
+let activeWeek = 0;
+let checked = [{},{},{}];
+let collapsed = {};
+
+function key(wi,ci,ii){ return `${wi}-${ci}-${ii}`; }
+function totalItems(wi){ return weeks[wi].cats.reduce((s,c)=>s+c.items.length,0); }
+function checkedCount(wi){ return Object.keys(checked[wi]).filter(k=>checked[wi][k]).length; }
+
+function updateProgress(){
+  const wi=activeWeek;
+  const tot=totalItems(wi);
+  const chk=checkedCount(wi);
+  const pct=tot?Math.round(chk/tot*100):0;
+  document.getElementById('prog-label').textContent=`${chk} de ${tot} artículos comprados`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  for(let w=0;w<3;w++){
+    const t=totalItems(w);
+    const c=checkedCount(w);
+    const p=t?Math.round(c/t*100):0;
+    document.getElementById(`mpct${w}`).textContent=p+'%';
+    document.getElementById(`mpill${w}`).classList.toggle('on',w===activeWeek);
+  }
+}
+
+function render(filter){
+  filter=filter||document.getElementById('search-box').value.toLowerCase();
+  const wi=activeWeek;
+  let html='';
+  weeks[wi].cats.forEach((cat,ci)=>{
+    const vis=cat.items.filter(item=>!filter||item.n.toLowerCase().includes(filter)||item.p.toLowerCase().includes(filter));
+    if(!vis.length) return;
+    const ckey=`${wi}-${ci}`;
+    const isCol=collapsed[ckey];
+    const doneInCat=vis.filter(item=>{const ii=cat.items.indexOf(item);return checked[wi][key(wi,ci,ii)];}).length;
+    html+=`<div class="cat-block">
+      <div class="cat-header" onclick="toggleCat(${ci})">
+        <div class="cat-left">
+          <span class="cat-emoji">${cat.e}</span>
+          <span class="cat-name">${cat.name}</span>
+        </div>
+        <div class="cat-right">
+          <span class="cat-badge">${doneInCat}/${vis.length}</span>
+          <span class="cat-arrow${isCol?'':' open'}">›</span>
+        </div>
+      </div>`;
+    if(!isCol){
+      vis.forEach(item=>{
+        const ii=cat.items.indexOf(item);
+        const k=key(wi,ci,ii);
+        const done=!!checked[wi][k];
+        html+=`<div class="item-row${done?' done':''}" onclick="toggle('${k}')">
+          <div class="cb${done?' checked':''}"></div>
+          <div class="item-info">
+            <div class="item-name">${item.n}</div>
+            <div class="item-qty">${item.q}</div>
+            <div class="item-para">${item.p}</div>
+          </div>
+        </div>`;
+      });
+    }
+    html+=`</div>`;
+  });
+  if(!html) html=`<div class="empty-state"><div class="empty-icon">🔍</div>No encontré ese ingrediente</div>`;
+  document.getElementById('content').innerHTML=html;
+  updateProgress();
+}
+
+function toggle(k){
+  checked[activeWeek][k]=!checked[activeWeek][k];
+  render();
+}
+
+function toggleCat(ci){
+  const k=`${activeWeek}-${ci}`;
+  collapsed[k]=!collapsed[k];
+  render();
+}
+
+function setWeek(w,btn){
+  activeWeek=w;
+  document.querySelectorAll('.wtab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('search-box').value='';
+  render('');
+}
+
+function checkAll(){
+  const wi=activeWeek;
+  weeks[wi].cats.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{checked[wi][key(wi,ci,ii)]=true;}));
+  render();
+}
+
+function clearAll(){
+  checked[activeWeek]={};
+  render();
+}
+
+function resetAll(){
+  if(confirm('¿Reiniciar todas las semanas?')){
+    checked=[{},{},{}];
+    render();
+  }
+}
+
+render('');
+</script>
+</body>
+</html>
